@@ -42,7 +42,33 @@ class ItemModel extends AdminModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        return false;
+        $form = $this->loadForm(
+            'com_jlcontentfieldsfilter.item',
+            'item',
+            ['control' => 'jform', 'load_data' => $loadData]
+        );
+
+        if (empty($form)) {
+            return false;
+        }
+
+        return $form;
+    }
+
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return mixed The data for the form.
+     *
+     * @since   1.0.0
+     */
+    protected function loadFormData()
+    {
+        $data = $this->getItem();
+
+        $this->preprocessData('com_jlcontentfieldsfilter.item', $data);
+
+        return $data;
     }
 
     /**

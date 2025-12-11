@@ -12,9 +12,9 @@
 namespace Joomla\Component\Jlcontentfieldsfilter\Administrator\View\Items;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Jlcontentfieldsfilter\Administrator\Helper\JlcontentfieldsfilterHelper;
 
@@ -24,34 +24,61 @@ use Joomla\Component\Jlcontentfieldsfilter\Administrator\Helper\Jlcontentfieldsf
 
 /**
  * View to display a list of items.
- * @author Joomline
+ *
+ * @since  1.0.0
  */
 class HtmlView extends BaseHtmlView
 {
     /**
-     * @var $items stdClass[]
+     * An array of items
+     *
+     * @var array
+     * @since  1.0.0
      */
-    public $items;
+    protected $items;
+
     /**
-     * @var $pagination JPagination
+     * The pagination object
+     *
+     * @var \Joomla\CMS\Pagination\Pagination
+     * @since  1.0.0
      */
-    public $pagination;
+    protected $pagination;
+
     /**
-     * @var $state \Joomla\CMS\Object\CMSObject
+     * The model state
+     *
+     * @var \Joomla\Registry\Registry
+     * @since  1.0.0
      */
-    public $state;
+    protected $state;
+
     /**
-     * @var $user \Joomla\CMS\User\User
+     * Form object for search filters
+     *
+     * @var \Joomla\CMS\Form\Form
+     * @since  1.0.0
      */
-    public $user;
+    public $filterForm;
+
     /**
-     * @var $authors stdClass[]
+     * The active search filters
+     *
+     * @var array
+     * @since  1.0.0
      */
-    public $authors;
+    public $activeFilters;
+
+    /**
+     * Category options for select
+     *
+     * @var string
+     * @since  1.0.0
+     */
     public $categoryOptions;
 
     /**
-     * Method to display the view.
+     * Display the view.
      *
      * @param string $tpl The name of the template file to parse
      *
@@ -61,19 +88,25 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        $this->items          = $this->get('Items');
+        $this->pagination     = $this->get('Pagination');
+        $this->state          = $this->get('State');
+        $this->filterForm     = $this->get('FilterForm');
+        $this->activeFilters  = $this->get('ActiveFilters');
         $this->categoryOptions = $this->get('CategoryOptions');
-        $this->pagination      = $this->get('Pagination');
-        $this->state           = $this->get('State');
-        $this->user            = Factory::getApplication()->getIdentity();
-        $this->loadHelper('jlcontentfieldsfilter');
+
+        // Check for errors
+        if (\count($errors = $this->get('Errors'))) {
+            throw new \Exception(\implode("\n", $errors), 500);
+        }
+
         $this->addToolbar();
-        $this->sidebar = Sidebar::render();
 
         parent::display($tpl);
     }
 
     /**
-     * Method to add toolbar buttons.
+     * Add the page title and toolbar.
      *
      * @return void
      *
@@ -81,31 +114,45 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        ToolBarHelper::title(Text::_('COM_JLCONTENTFIELDSFILTER'));
-        $canDo = JlcontentfieldsfilterHelper::getActions('item');
+        $canDo = JlcontentfieldsfilterHelper::getActions();
+        $user  = Factory::getApplication()->getIdentity();
 
-        if ($canDo->{'core.admin'}) {
-            ToolBarHelper::preferences('com_jlcontentfieldsfilter');
-            ToolBarHelper::divider();
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
+
+        ToolbarHelper::title(Text::_('COM_JLCONTENTFIELDSFILTER_MANAGER_ITEMS'), 'generic');
+
+        if ($canDo->{'core.create'}) {
+            $toolbar->addNew('item.add');
         }
-    }
 
-    /**
-     * Get the sort fields for the list.
-     *
-     * @return array Array of sort field options
-     *
-     * @since   1.0.0
-     */
-    protected function getSortFields()
-    {
-        return [
-            'ordering'   => Text::_('JGRID_HEADING_ORDERING'),
-            'published'  => Text::_('JSTATUS'),
-            'title'      => Text::_('JGLOBAL_TITLE'),
-            'created_by' => Text::_('JAUTHOR'),
-            'created'    => Text::_('JDATE'),
-            'id'         => Text::_('JGRID_HEADING_ID'),
-        ];
+        if ($canDo->{'core.edit.state'}) {
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
+
+            $childBar = $dropdown->getChildToolbar();
+
+            $childBar->publish('items.publish')->listCheck(true);
+            $childBar->unpublish('items.unpublish')->listCheck(true);
+        }
+
+        if ($this->state->get('filter.publish') == -2 && $canDo->{'core.delete'}) {
+            $toolbar->delete('items.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
+        } elseif ($canDo->{'core.edit.state'}) {
+            $childBar->trash('items.trash')->listCheck(true);
+        }
+
+        if ($user->authorise('core.admin', 'com_jlcontentfieldsfilter') || $user->authorise('core.options', 'com_jlcontentfieldsfilter')) {
+            $toolbar->preferences('com_jlcontentfieldsfilter');
+        }
+
+        ToolbarHelper::help('', false, 'https://joomline.net/extensions/seo-for-jl-content-fields-filter.html');
     }
 }

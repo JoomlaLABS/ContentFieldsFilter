@@ -30,6 +30,7 @@
         <files folder="admin">
             <filename>access.xml</filename>
             <filename>config.xml</filename>
+            <folder>forms</folder>
             <folder>language</folder>
             <folder>services</folder>
             <folder>sql</folder>

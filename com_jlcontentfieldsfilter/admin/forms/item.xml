@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details" label="COM_JLCONTENTFIELDSFILTER_FIELDSET_DETAILS">
+		<field
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			readonly="true"
+		/>
+
+		<field
+			name="catid"
+			type="category"
+			label="JCATEGORY"
+			extension="com_content"
+			class="form-select"
+			required="true"
+		/>
+
+		<field
+			name="filter_hash"
+			type="text"
+			label="COM_JLCONTENTFIELDSFILTER_FIELD_FILTER_HASH_LABEL"
+			description="COM_JLCONTENTFIELDSFILTER_FIELD_FILTER_HASH_DESC"
+			class="form-control"
+			readonly="true"
+			size="40"
+		/>
+
+		<field
+			name="filter"
+			type="textarea"
+			label="COM_JLCONTENTFIELDSFILTER_FIELD_FILTER_LABEL"
+			description="COM_JLCONTENTFIELDSFILTER_FIELD_FILTER_DESC"
+			class="form-control"
+			rows="3"
+			readonly="true"
+		/>
+
+		<field
+			name="meta_title"
+			type="text"
+			label="COM_JLCONTENTFIELDSFILTER_FIELD_META_TITLE_LABEL"
+			description="COM_JLCONTENTFIELDSFILTER_FIELD_META_TITLE_DESC"
+			class="form-control"
+			size="60"
+			maxlength="255"
+			required="true"
+		/>
+
+		<field
+			name="meta_desc"
+			type="textarea"
+			label="COM_JLCONTENTFIELDSFILTER_FIELD_META_DESC_LABEL"
+			description="COM_JLCONTENTFIELDSFILTER_FIELD_META_DESC_DESC"
+			class="form-control"
+			rows="3"
+			maxlength="255"
+		/>
+
+		<field
+			name="meta_keywords"
+			type="textarea"
+			label="COM_JLCONTENTFIELDSFILTER_FIELD_META_KEYWORDS_LABEL"
+			description="COM_JLCONTENTFIELDSFILTER_FIELD_META_KEYWORDS_DESC"
+			class="form-control"
+			rows="2"
+			maxlength="255"
+		/>
+
+		<field
+			name="publish"
+			type="list"
+			label="JSTATUS"
+			class="form-select"
+			default="1"
+		>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="1">JPUBLISHED</option>
+		</field>
+	</fieldset>
+</form>
