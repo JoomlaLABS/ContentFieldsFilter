@@ -85,24 +85,35 @@ class JlcontentfieldsfilterHelper
         $data = [];
         foreach ($filter as $key => $item) {
             if (\is_array($item)) {
-                $val = [];
-                ksort($item);
-                foreach ($item as $k => $v) {
-
-                    if ($k === 'from' || $k === 'to') {
-                        continue;
+                // Check if it's a range field (has 'from' or 'to' keys)
+                if (isset($item['from']) || isset($item['to'])) {
+                    // Range field: save as fieldid[from]=val&fieldid[to]=val
+                    if (!empty($item['from'])) {
+                        $val    = $safe ? urlencode($item['from']) : $item['from'];
+                        $data[] = $key . '[from]=' . $val;
                     }
-
-                    if (!empty($v)) {
-                        $val[] = $safe ? urlencode($v) : $v;
+                    if (!empty($item['to'])) {
+                        $val    = $safe ? urlencode($item['to']) : $item['to'];
+                        $data[] = $key . '[to]=' . $val;
                     }
-                }
-                if (\count($val)) {
-                    $data[] = $key . '=' . implode(',', $val);
+                } else {
+                    // Regular multi-value field: fieldid=val1,val2,val3
+                    $val = [];
+                    ksort($item);
+                    foreach ($item as $k => $v) {
+                        if (!empty($v)) {
+                            $val[] = $safe ? urlencode($v) : $v;
+                        }
+                    }
+                    if (\count($val)) {
+                        $data[] = $key . '=' . implode(',', $val);
+                    }
                 }
             } else {
-                $data[] = $key . '=' . $safe ? urlencode($item) : $item;
-                ;
+                // Single value field
+                if (!empty($item)) {
+                    $data[] = $key . '=' . ($safe ? urlencode($item) : $item);
+                }
             }
         }
 
@@ -193,11 +204,29 @@ class JlcontentfieldsfilterHelper
             }
             $fname = $fields[$key]['name'];
             if (\is_array($f)) {
+                // Check if it's a range field (from/to)
+                if (isset($f['from']) || isset($f['to'])) {
+                    $rangeValues = [];
+                    if (!empty($f['from'])) {
+                        $rangeValues[] = $f['from'];
+                    }
+                    if (!empty($f['to'])) {
+                        $rangeValues[] = $f['to'];
+                    }
+                    if (\count($rangeValues) > 0) {
+                        $fValue = implode('-', $rangeValues); // e.g., "50-100" or just "50" or "100"
+                        // For title: only values
+                        $titles[] = $fValue;
+                        // For description: field name + values
+                        $desc[]     = $fname.': '.$fValue;
+                        $keyvords[] = $fValue;
+                    }
+                    continue;
+                }
+
+                // Regular array field (checkboxes, radio, etc.)
                 $fValues = [];
                 foreach ($f as $fk => $fv) {
-                    if (\in_array($fk, ['from', 'to'])) {
-                        continue;
-                    }
                     if (empty($fv)) {
                         continue;
                     }
@@ -214,6 +243,7 @@ class JlcontentfieldsfilterHelper
                 }
                 $fValue = implode(', ', $fValues);
             } else {
+                // Single value field
                 if (is_numeric($f)) {
                     $f = (int)$f;
                 }
@@ -229,16 +259,21 @@ class JlcontentfieldsfilterHelper
             if (empty($fValue)) {
                 continue;
             }
-            $titles[]   = $desc[] = $fname.': '.$fValue;
+            // For title: only values
+            $titles[] = $fValue;
+            // For description: field name + values
+            $desc[]     = $fname.': '.$fValue;
             $keyvords[] = $fValue;
         }
         $object->catid         = $catid;
         $object->filter        = JlcontentfieldsfilterHelper::createFilterString($filterData);
         $object->filter_hash   = JlcontentfieldsfilterHelper::createHash($object->filter);
-        $object->meta_title    = $catName.'. '.implode('; ', $titles);
-        $object->meta_desc     = $catName.'. '.implode('; ', $desc);
+        // Meta title: Category - Value1; Value2; Value3
+        $object->meta_title    = \count($titles) ? $catName.' - '.implode('; ', $titles) : $catName;
+        // Meta description: Category - Field1: Value1; Field2: Value2
+        $object->meta_desc     = \count($desc) ? $catName.' - '.implode('; ', $desc) : $catName;
         $object->meta_keywords = implode(', ', $keyvords);
-        $object->publish       = 1;
+        $object->state         = 1;
 
         $db->insertObject('#__jlcontentfieldsfilter_data', $object, 'id');
 

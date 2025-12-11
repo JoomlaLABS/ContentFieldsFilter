@@ -35,9 +35,9 @@ class ItemController extends FormController
     /**
      * Method to get the model.
      *
-     * @param string $name   The model name. Optional.
+     * @param string $name The model name. Optional.
      * @param string $prefix The class prefix. Optional.
-     * @param array  $config Configuration array for model. Optional.
+     * @param array $config Configuration array for model. Optional.
      *
      * @return \Joomla\CMS\MVC\Model\BaseDatabaseModel The model instance
      *

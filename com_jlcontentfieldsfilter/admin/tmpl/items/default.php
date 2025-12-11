@@ -61,7 +61,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('grid.checkall'); ?>
                                 </td>
                                 <th scope="col" class="w-1 text-center">
-                                    <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.publish', $listDirn, $listOrder); ?>
+                                    <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_JLCONTENTFIELDSFILTER_FIELD_META_TITLE_LABEL', 'a.meta_title', $listDirn, $listOrder); ?>
@@ -89,7 +89,7 @@ if ($saveOrder && !empty($this->items)) {
                                         <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->meta_title); ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo HTMLHelper::_('jgrid.published', $item->publish, $i, 'items.', $canChange, 'cb'); ?>
+                                        <?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'items.', $canChange, 'cb'); ?>
                                     </td>
                                     <th scope="row" class="has-context">
                                         <div>

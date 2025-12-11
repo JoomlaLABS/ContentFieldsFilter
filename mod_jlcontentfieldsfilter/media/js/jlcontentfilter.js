@@ -77,13 +77,15 @@ var JlContentFieldsFilter = {
         var form = jQuery(element).parents('form');
         var id = form.attr('id');
         var params = this.params[id];
-        jQuery(element).parent().find('input[type="radio"]:checked').removeAttr('checked');
-        if (params.autho_send === 1) {
+        
+        jQuery(element).parent().find('input[type="radio"]:checked').prop('checked', false);
+        
+        if (params && params.autho_send === 1) {
             if (params.ajax === 1) {
                 this.loadData(id);
             }
             else {
-                jQuery(element).parents('form').submit();
+                form.submit();
             }
         }
     },

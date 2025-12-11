@@ -35,7 +35,7 @@ $value = $field->value;
 $fromPlaceholder = $min !== '' ? Text::sprintf('MOD_JLCONTENTFIELDSFILTER_MIN', $min) : '';
 $toPlaceholder   = $max !== '' ? Text::sprintf('MOD_JLCONTENTFIELDSFILTER_MAX', $max) : '';
 ?>
-<div class="jlmf-label"><?php echo $label; ?></div>
+<div class="jlmf-field-title"><?php echo $label; ?></div>
 <div class="jlmf-list-2">
     <div>
         <label class="jlmf-label"

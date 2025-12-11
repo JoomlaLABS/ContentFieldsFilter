@@ -31,11 +31,12 @@ $label = Text::_($field->label);
 $value = $field->value;
 ?>
 
-<label class="jlmf-label" for="<?php echo $field->name . '-' . $moduleId; ?>"><?php echo $label; ?></label>
+<div class="jlmf-field-title"><?php echo $label; ?></div>
 <input
         type="text"
         value="<?php echo $value; ?>"
         id="<?php echo $field->name . '-' . $moduleId; ?>"
         name="jlcontentfieldsfilter[<?php echo $field->id; ?>]"
         class="jlmf-input"
+        aria-label="<?php echo $label; ?>"
 />

@@ -31,12 +31,18 @@
             <filename>access.xml</filename>
             <filename>config.xml</filename>
             <folder>forms</folder>
-            <folder>language</folder>
             <folder>services</folder>
             <folder>sql</folder>
             <folder>src</folder>
             <folder>tmpl</folder>
         </files>
+
+        <languages folder="admin/language">
+            <language tag="en-GB">en-GB/com_jlcontentfieldsfilter.ini</language>
+            <language tag="en-GB">en-GB/com_jlcontentfieldsfilter.sys.ini</language>
+            <language tag="ru-RU">ru-RU/com_jlcontentfieldsfilter.ini</language>
+            <language tag="ru-RU">ru-RU/com_jlcontentfieldsfilter.sys.ini</language>
+        </languages>
     </administration>
 
     <media folder="media/com_jlcontentfieldsfilter" destination="com_jlcontentfieldsfilter">

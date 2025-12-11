@@ -47,11 +47,12 @@ if (!count($options))
 	return;
 }
 ?>
-<label class="jlmf-label" for="<?php echo $field->name . '-' . $moduleId; ?>"><?php echo $label; ?></label>
+<div class="jlmf-field-title"><?php echo $label; ?></div>
 <select
         name="jlcontentfieldsfilter[<?php echo $field->id; ?>]"
         id="<?php echo $field->name . '-' . $moduleId; ?>"
         class="jlmf-select"
+        aria-label="<?php echo $label; ?>"
 >
     <option value=""><?php echo Text::_('JSELECT'); ?></option>
 

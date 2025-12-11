@@ -40,7 +40,7 @@ if (!is_array($options) || !count($options))
 }
 
 ?>
-<div class="jlmf-label"><?php echo $label; ?></div>
+<div class="jlmf-field-title"><?php echo $label; ?></div>
 <div class="jlmf-list-<?php echo $count_cols; ?>">
 
 	<?php

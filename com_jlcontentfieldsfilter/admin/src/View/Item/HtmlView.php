@@ -28,7 +28,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * The form object
+     * The form object.
      *
      * @var \Joomla\CMS\Form\Form
      * @since  1.0.0
@@ -36,7 +36,7 @@ class HtmlView extends BaseHtmlView
     protected $form;
 
     /**
-     * The item object
+     * The item object.
      *
      * @var object
      * @since  1.0.0
@@ -44,7 +44,7 @@ class HtmlView extends BaseHtmlView
     protected $item;
 
     /**
-     * The model state
+     * The model state.
      *
      * @var \Joomla\Registry\Registry
      * @since  1.0.0
@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 
         // Check for errors
         if (\count($errors = $this->get('Errors'))) {
-            throw new \Exception(\implode("\n", $errors), 500);
+            throw new \Exception(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();

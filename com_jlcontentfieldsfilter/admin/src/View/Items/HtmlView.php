@@ -30,7 +30,7 @@ use Joomla\Component\Jlcontentfieldsfilter\Administrator\Helper\Jlcontentfieldsf
 class HtmlView extends BaseHtmlView
 {
     /**
-     * An array of items
+     * An array of items.
      *
      * @var array
      * @since  1.0.0
@@ -38,7 +38,7 @@ class HtmlView extends BaseHtmlView
     protected $items;
 
     /**
-     * The pagination object
+     * The pagination object.
      *
      * @var \Joomla\CMS\Pagination\Pagination
      * @since  1.0.0
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
     protected $pagination;
 
     /**
-     * The model state
+     * The model state.
      *
      * @var \Joomla\Registry\Registry
      * @since  1.0.0
@@ -54,7 +54,7 @@ class HtmlView extends BaseHtmlView
     protected $state;
 
     /**
-     * Form object for search filters
+     * Form object for search filters.
      *
      * @var \Joomla\CMS\Form\Form
      * @since  1.0.0
@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
     public $filterForm;
 
     /**
-     * The active search filters
+     * The active search filters.
      *
      * @var array
      * @since  1.0.0
@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
     public $activeFilters;
 
     /**
-     * Category options for select
+     * Category options for select.
      *
      * @var string
      * @since  1.0.0
@@ -88,16 +88,16 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items          = $this->get('Items');
-        $this->pagination     = $this->get('Pagination');
-        $this->state          = $this->get('State');
-        $this->filterForm     = $this->get('FilterForm');
-        $this->activeFilters  = $this->get('ActiveFilters');
+        $this->items           = $this->get('Items');
+        $this->pagination      = $this->get('Pagination');
+        $this->state           = $this->get('State');
+        $this->filterForm      = $this->get('FilterForm');
+        $this->activeFilters   = $this->get('ActiveFilters');
         $this->categoryOptions = $this->get('CategoryOptions');
 
         // Check for errors
         if (\count($errors = $this->get('Errors'))) {
-            throw new \Exception(\implode("\n", $errors), 500);
+            throw new \Exception(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();
@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
             $childBar->unpublish('items.unpublish')->listCheck(true);
         }
 
-        if ($this->state->get('filter.publish') == -2 && $canDo->{'core.delete'}) {
+        if ($this->state->get('filter.state') == -2 && $canDo->{'core.delete'}) {
             $toolbar->delete('items.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')

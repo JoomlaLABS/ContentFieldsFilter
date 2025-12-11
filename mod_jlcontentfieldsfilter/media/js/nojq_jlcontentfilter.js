@@ -80,14 +80,14 @@ var JlContentFieldsFilter = {
         var id = form.getAttribute('id');
         var params = this.params[id];
 
-        var els = form.querySelectorAll('input[type="radio"]');
+        // Find radios in parent container
+        var container = element.parentElement;
+        var els = container.querySelectorAll('input[type="radio"]:checked');
         for (var i = 0; i < els.length; i++) {
-            if (els[i].checked) {
-                els[i].checked = false;
-            }
+            els[i].checked = false;
         }
 
-        if (params.autho_send === 1) {
+        if (params && params.autho_send === 1) {
             if (params.ajax === 1) {
                 this.loadData(id);
             } else {

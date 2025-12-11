@@ -46,7 +46,7 @@ $wa->registerAndUseScript('mod_jlcontentfieldsfilter.nouislider.script', 'mod_jl
     ->registerAndUseStyle('mod_jlcontentfieldsfilter.range.style', 'mod_jlcontentfieldsfilter/range.css');
 
 ?>
-<div class="jlmf-label"><?php echo $label; ?></div>
+<div class="jlmf-field-title"><?php echo $label; ?></div>
 <div class="jlmf-list-2 range-sliders">
     <div>
         <label class="jlmf-label"

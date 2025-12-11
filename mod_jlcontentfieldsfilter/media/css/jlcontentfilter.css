@@ -11,6 +11,15 @@
     margin-top: 30px;
 }
 
+.jlmf-field-title {
+    display: block;
+    padding-bottom: 5px;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: bold;
+    margin: 0;
+}
+
 label.jlmf-label {
     display: inline-block;
     padding-bottom: 5px;
@@ -59,7 +68,13 @@ label.jlmf-sublabel {
     display: none;
 }
 
-[class*="jlmf-list"] > div > div:not(:first-child) {
+[class*="jlmf-list"] > div:not(:first-child) {
+    margin-top: 5px;
+}
+
+.jlmf-clear-radio-wrapper {
+    width: 100%;
+    text-align: right;
     margin-top: 5px;
 }
 
@@ -98,6 +113,18 @@ label.jlmf-sublabel {
     text-decoration: underline;
 }
 
+.jlmf-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.jlmf-buttons > button {
+    flex: 1;
+    min-width: 120px;
+}
+
 .jlmf-button {
     display: inline-block;
     margin-top: 10px;
@@ -114,6 +141,43 @@ label.jlmf-sublabel {
 }
 .jlmf-button:hover {
     background-color: #0070a5;
+}
+
+.jlmf-button-secondary {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 15px;
+    font-family: inherit;
+    font-size: .8rem;
+    font-weight: 400;
+    line-height: 2;
+    text-transform: uppercase;
+    border: 1px solid #6c757d;
+    background-color: transparent;
+    color: #6c757d;
+    cursor: pointer;
+}
+.jlmf-button-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.jlmf-button-small {
+    display: inline-block;
+    padding: 3px 10px;
+    font-family: inherit;
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-transform: uppercase;
+    border: 1px solid #6c757d;
+    background-color: transparent;
+    color: #6c757d;
+    cursor: pointer;
+}
+.jlmf-button-small:hover {
+    background-color: #6c757d;
+    color: #fff;
 }
 
 .jlcontentfieldsfilter input {  

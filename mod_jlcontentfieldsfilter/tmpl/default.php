@@ -79,12 +79,12 @@ if ($params->get('enable_css', 1))
 		<?php endif; ?>
 
         <div class="jlmf-section">
+            <div class="jlmf-buttons">
 			<?php if (!$autho_send) : ?>
                 <button type="submit"
                         class="jlmf-button"><?php echo Text::_('MOD_JLCONTENTFIELDSFILTER_SUBMIT'); ?></button>
 			<?php endif; ?>
-            <div>
-                <button type="button" class="jlmf-link"
+                <button type="button" class="jlmf-button-secondary"
                         onclick="return JlContentFieldsFilter.clearForm(this);"><?php echo Text::_('MOD_JLCONTENTFIELDSFILTER_RESET'); ?></button>
             </div>
         </div>

@@ -20,7 +20,7 @@
         </field>
 
         <field
-            name="publish"
+            name="state"
             type="list"
             label="JOPTION_SELECT_PUBLISHED"
             onchange="this.form.submit();"
@@ -50,8 +50,8 @@
             <option value="a.meta_title DESC">COM_JLCONTENTFIELDSFILTER_HEADING_META_TITLE_DESC</option>
             <option value="category_title ASC">JCATEGORY_ASC</option>
             <option value="category_title DESC">JCATEGORY_DESC</option>
-            <option value="a.publish ASC">JSTATUS_ASC</option>
-            <option value="a.publish DESC">JSTATUS_DESC</option>
+            <option value="a.state ASC">JSTATUS_ASC</option>
+            <option value="a.state DESC">JSTATUS_DESC</option>
         </field>
 
         <field

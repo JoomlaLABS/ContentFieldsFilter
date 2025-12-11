@@ -39,6 +39,9 @@ class JlcontentfieldsfilterDataTable extends Table
     public function __construct(DatabaseInterface $db)
     {
         parent::__construct('#__jlcontentfieldsfilter_data', 'id', $db);
+
+        // Set the alias since the column is called state
+        $this->setColumnAlias('published', 'state');
     }
 
     /**

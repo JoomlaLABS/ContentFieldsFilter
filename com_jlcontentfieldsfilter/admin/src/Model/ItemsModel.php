@@ -12,7 +12,6 @@
 
 namespace Joomla\Component\Jlcontentfieldsfilter\Administrator\Model;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -43,7 +42,7 @@ class ItemsModel extends ListModel
                 'id', 'a.id',
                 'catid', 'a.catid',
                 'meta_title', 'a.meta_title',
-                'publish', 'a.publish',
+                'state', 'a.state',
                 'filter_hash', 'a.filter_hash',
             ];
         }
@@ -54,8 +53,8 @@ class ItemsModel extends ListModel
     /**
      * Method to get the filter form.
      *
-     * @param array  $data     Data for the form.
-     * @param bool   $loadData True to load the default data.
+     * @param array $data Data for the form.
+     * @param bool $loadData True to load the default data.
      *
      * @return Form|null The Form object or null on error.
      *
@@ -65,14 +64,14 @@ class ItemsModel extends ListModel
     {
         // Add the forms directory to the form search paths
         Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_jlcontentfieldsfilter/forms');
-        
+
         // Load the filter form from XML
         $form = $this->loadForm(
             'com_jlcontentfieldsfilter.filter',
             'filter_items',
             [
-                'control' => '',
-                'load_data' => $loadData
+                'control'   => '',
+                'load_data' => $loadData,
             ]
         );
 
@@ -96,16 +95,20 @@ class ItemsModel extends ListModel
         $query = $db->getQuery(true);
 
         // Select fields
-        $query->select($db->quoteName([
-            'a.id',
-            'a.catid',
-            'a.filter_hash',
-            'a.filter',
-            'a.meta_title',
-            'a.meta_desc',
-            'a.meta_keywords',
-            'a.publish',
-        ]))
+        $query->select(
+            $db->quoteName(
+                [
+                    'a.id',
+                    'a.catid',
+                    'a.filter_hash',
+                    'a.filter',
+                    'a.state',
+                    'a.meta_title',
+                    'a.meta_desc',
+                    'a.meta_keywords',
+                ]
+            )
+        )
             ->from($db->quoteName('#__jlcontentfieldsfilter_data', 'a'));
 
         // Join with categories to get category name
@@ -124,10 +127,10 @@ class ItemsModel extends ListModel
         }
 
         // Filter by published state
-        $published = $this->getState('filter.publish');
+        $published = $this->getState('filter.state');
         if (is_numeric($published)) {
-            $query->where($db->quoteName('a.publish') . ' = :publish')
-                ->bind(':publish', $published, ParameterType::INTEGER);
+            $query->where($db->quoteName('a.state') . ' = :state')
+                ->bind(':state', $published, ParameterType::INTEGER);
         }
 
         // Filter by search
@@ -155,7 +158,7 @@ class ItemsModel extends ListModel
     /**
      * Method to auto-populate the model state.
      *
-     * @param string $ordering  An optional ordering field.
+     * @param string $ordering An optional ordering field.
      * @param string $direction An optional direction (asc|desc).
      *
      * @return void
@@ -171,8 +174,8 @@ class ItemsModel extends ListModel
         $categoryId = $this->getUserStateFromRequest($this->context . '.filter.catid', 'filter_catid', '');
         $this->setState('filter.catid', $categoryId);
 
-        $published = $this->getUserStateFromRequest($this->context . '.filter.publish', 'filter_publish', '');
-        $this->setState('filter.publish', $published);
+        $published = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '');
+        $this->setState('filter.state', $published);
 
         parent::populateState($ordering, $direction);
     }
@@ -199,7 +202,7 @@ class ItemsModel extends ListModel
     /**
      * Get items from a specific category with filters.
      *
-     * @param int   $categoryId Category ID
+     * @param int $categoryId Category ID
      * @param array $filterData Filter data array
      *
      * @return array Array of filter items
