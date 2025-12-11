@@ -157,7 +157,7 @@ class TagModel extends ListModel
             $query->where($db->quoteName('c.core_title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
         }
 
-        //Joomline hack start
+        // Custom modification start: Filter by article IDs for content filtering
         $app                = Factory::getApplication();
         $itemid             = implode(',', $app->getInput()->get('id', 0, 'int')) . ':' . $app->getInput()->get('Itemid', 0, 'int');
         $context            = 'com_tags.category.list.' . $itemid;
@@ -168,9 +168,7 @@ class TagModel extends ListModel
             $query->where($this->_db->quoteName('m.type_alias') . ' = ' . $this->_db->quote('com_content.article'));
             $query->where($this->_db->quoteName('m.content_item_id') . ' IN ("'.implode('","', $filterArticles).'")');
         }
-        //Joomline hack end
-
-        return $query;
+        // Custom modification end        return $query;
     }
 
     /**
@@ -267,12 +265,12 @@ class TagModel extends ListModel
         $filterSearch = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
         $this->setState('list.filter', $filterSearch);
 
-        //Joomline hack start
+        // Custom modification start: Add article ID filtering support
         $value = $this->getUserStateFromRequest('com_content.category.list.' . $itemid . 'filter.article_id_include', 'filter_article_id_include', false, 'boolen');
         $this->setState('filter.article_id.include', $value);
         $value = $this->getUserStateFromRequest('com_content.category.list.' . $itemid . 'filter.article_id', 'filter_article_id', null, 'array');
         $this->setState('filter.article_id', $value);
-        //Joomline hack end
+        // Custom modification end
     }
 
     /**

@@ -93,12 +93,6 @@ class FilterfieldsField extends FormField
      */
     protected function loadFilterFields($catid, $filterString = '')
     {
-        $debugInfo   = [];
-        $debugInfo[] = '<div class="alert alert-secondary small mb-3">';
-        $debugInfo[] = '<strong>Debug Info:</strong><br>';
-        $debugInfo[] = 'Category ID: ' . $catid . '<br>';
-        $debugInfo[] = 'Filter String: ' . htmlspecialchars($filterString) . '<br>';
-
         // Parse filter string to get current values
         $currentFilters = [];
         if (!empty($filterString)) {
@@ -119,26 +113,18 @@ class FilterfieldsField extends FormField
             $moduleData = $db->setQuery($query)->loadObject();
 
             if (!$moduleData) {
-                $debugInfo[] = 'Module: NOT FOUND<br>';
-                $debugInfo[] = '</div>';
-                return implode('', $debugInfo) . '<div class="alert alert-warning">' .
+                return '<div class="alert alert-warning">' .
                        '<span class="icon-warning" aria-hidden="true"></span> ' .
                        Text::_('COM_JLCONTENTFIELDSFILTER_MODULE_NOT_FOUND') .
                        '</div>';
             }
 
-            $debugInfo[] = 'Module ID: ' . $moduleData->id . '<br>';
-            $debugInfo[] = 'Module Title: ' . htmlspecialchars($moduleData->title) . '<br>';
-
             $params = new Registry($moduleData->params);
 
             // Load the helper class directly
-            $helperFile  = JPATH_ROOT . '/modules/mod_jlcontentfieldsfilter/src/Helper/JlcontentfieldsfilterHelper.php';
-            $debugInfo[] = 'Helper Path: ' . $helperFile . '<br>';
-            $debugInfo[] = 'Helper Exists: ' . (file_exists($helperFile) ? 'YES' : 'NO') . '<br>';
+            $helperFile = JPATH_ROOT . '/modules/mod_jlcontentfieldsfilter/src/Helper/JlcontentfieldsfilterHelper.php';
 
             if (!file_exists($helperFile)) {
-                $debugInfo[] = '</div>';
                 throw new \Exception('Helper file not found at: ' . $helperFile);
             }
 
@@ -146,30 +132,22 @@ class FilterfieldsField extends FormField
 
             $helperClass = '\\Joomla\\Module\\Jlcontentfieldsfilter\\Site\\Helper\\JlcontentfieldsfilterHelper';
             if (!class_exists($helperClass)) {
-                $debugInfo[] = 'Helper Class: NOT FOUND<br>';
-                $debugInfo[] = '</div>';
                 throw new \Exception('Helper class not found: ' . $helperClass);
             }
-
-            $debugInfo[] = 'Helper Class: LOADED<br>';
 
             $helper = new $helperClass();
 
             // Get fields for this category
             $fields = $helper->getFields($params, $catid, $currentFilters, $moduleData->id, 'com_content');
 
-            $debugInfo[] = 'Fields Count: ' . \count($fields) . '<br>';
-            $debugInfo[] = '</div>';
-
             if (empty($fields)) {
-                return implode('', $debugInfo) . '<div class="alert alert-info">' .
+                return '<div class="alert alert-info">' .
                        '<span class="icon-info-circle" aria-hidden="true"></span> ' .
                        Text::_('COM_JLCONTENTFIELDSFILTER_NO_FIELDS_FOUND') .
                        '</div>';
             }
 
             $html   = [];
-            $html[] = implode('', $debugInfo);
             $html[] = '<div class="row g-3">';
 
             foreach ($fields as $field) {
@@ -183,9 +161,7 @@ class FilterfieldsField extends FormField
             return implode("\n", $html);
 
         } catch (\Exception $e) {
-            $debugInfo[] = 'Exception: ' . htmlspecialchars($e->getMessage()) . '<br>';
-            $debugInfo[] = '</div>';
-            return implode('', $debugInfo) . '<div class="alert alert-danger">' .
+            return '<div class="alert alert-danger">' .
                    '<span class="icon-error" aria-hidden="true"></span> ' .
                    Text::sprintf('COM_JLCONTENTFIELDSFILTER_ERROR_LOADING_FIELDS', $e->getMessage()) .
                    '</div>';

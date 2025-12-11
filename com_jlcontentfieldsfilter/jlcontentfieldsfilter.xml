@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.8.0" method="upgrade">
+<extension type="component" version="4.0" method="upgrade">
     <name>com_jlcontentfieldsfilter</name>
     <author>Joomline</author>
     <authorEmail>sale@joomline.ru</authorEmail>
     <authorUrl>https://joomline.ru</authorUrl>
-    <copyright>(C) 2017-2023 Arkadiy Sedelnikov, Sergey Tolkachyov, Joomline. All rights reserved.</copyright>
+    <copyright>(C) 2017-2025 Arkadiy Sedelnikov, Sergey Tolkachyov, Joomline. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
     <version>@version@</version>
     <description>COM_JLCONTENTFIELDSFILTER_DESC</description>
@@ -44,11 +44,6 @@
             <language tag="ru-RU">ru-RU/com_jlcontentfieldsfilter.sys.ini</language>
         </languages>
     </administration>
-
-    <media folder="media/com_jlcontentfieldsfilter" destination="com_jlcontentfieldsfilter">
-        <folder>css</folder>
-        <folder>js</folder>
-    </media>
 
 	<updateservers>
         <server type="extension" priority="1" name="JL Content Fields Filter">

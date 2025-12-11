@@ -73,9 +73,10 @@ label.jlmf-sublabel {
 }
 
 .jlmf-clear-radio-wrapper {
-    width: 100%;
+    display: block;
+    width: 100% !important;
+    padding-right: 10px;
     text-align: right;
-    margin-top: 5px;
 }
 
 .jlmf-list-2 > div {

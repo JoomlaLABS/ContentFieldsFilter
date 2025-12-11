@@ -220,12 +220,12 @@ class CategoryModel extends ListModel
         // Set the featured articles state
         $this->setState('filter.featured', $params->get('show_featured'));
 
-        //Joomline hack start
+        // Custom modification start: Add article ID filtering support
         $value = $this->getUserStateFromRequest('com_content.category.list.' . $itemid . 'filter.article_id_include', 'filter_article_id_include', false, 'boolen');
         $this->setState('filter.article_id.include', $value);
         $value = $this->getUserStateFromRequest('com_content.category.list.' . $itemid . 'filter.article_id', 'filter_article_id', null, 'array');
         $this->setState('filter.article_id', $value);
-        //Joomline hack end
+        // Custom modification end
     }
 
     /**
@@ -260,10 +260,10 @@ class CategoryModel extends ListModel
             $model->setState('filter.max_category_levels', $this->getState('filter.max_category_levels'));
             $model->setState('list.links', $this->getState('list.links'));
 
-            //Joomline hack start
+            // Custom modification start: Pass article ID filters to articles model
             $model->setState('filter.article_id.include', $this->getState('filter.article_id.include'));
             $model->setState('filter.article_id', $this->getState('filter.article_id'));
-            //Joomline hack end
+            // Custom modification end
 
             if ($limit >= 0) {
                 $this->_articles = $model->getItems();

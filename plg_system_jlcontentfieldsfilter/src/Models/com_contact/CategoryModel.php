@@ -258,8 +258,7 @@ class CategoryModel extends ListModel
             $query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
         }
 
-        //Joomline hack start
-        // Filter by a single or group of articles.
+        // Custom modification start: Filter by single or group of contact IDs
         $articleId = $this->getState('filter.article_id');
 
         if (is_numeric($articleId)) {
@@ -269,7 +268,7 @@ class CategoryModel extends ListModel
             $articleId = implode(',', $articleId);
             $query->where('a.id IN (' . $articleId . ')');
         }
-        //Joomline hack end
+        // Custom modification end
 
         // Set sortname ordering if selected
         if ($this->getState('list.ordering') === 'sortname') {
@@ -350,11 +349,11 @@ class CategoryModel extends ListModel
         $this->setState('category.id', $id);
         $this->setState('filter.max_category_levels', $params->get('maxLevel', 1));
 
-        //Joomline hack start
+        // Custom modification start: Add contact ID filtering support
         $context = 'com_contact.category.list.' . $id . ':' . $itemid;
         $value   = $app->getUserState($context . 'filter.article_id', 'filter_article_id');
         $this->setState('filter.article_id', $value);
-        //Joomline hack start
+        // Custom modification end
 
         $user = $this->getCurrentUser();
 
